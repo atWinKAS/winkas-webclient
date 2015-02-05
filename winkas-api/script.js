@@ -56,8 +56,8 @@
 	app.controller("MainController", ["$scope", "$http", MainController]);
 	app.directive('niceJson', function(){
 		return {
-			restrict: 'E',
-			templateUrl: 'nicejson.html'
+			//restrict: 'E',
+			templateUrl: 'nice-json.html'
 		};
 	});
 	
