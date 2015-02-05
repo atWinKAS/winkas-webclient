@@ -1,37 +1,65 @@
-// Code goes here
-
-(function() {
-  var winKAS = function() {
-
-    var token;
+(function(angular){
+	function MainController($scope, $http){
+		$scope.message = "WinKAS API Web Client";
+		$scope.winkasServiceUrl = "http://localhost:51431/api/"; //"http://api.decom.dk/api/";
+		
+		var auth = {
+			code: "admin",
+			user: "at@winkas.dk",
+			pass: "admin"
+		};
+		
+		$scope.authInfo = auth;
+		
+		var onAuthComplete = function(response){
+			console.log(response);
+			$scope.authMessage = '';
+			
+			if (response.WinKasStatus == 0){
+				console.log('WinKAS Authentication success.');
+				$scope.token = response.WinKasData.CurrentToken;
+				$scope.authMessage = response.WinKasMessage;
+			} else if (response.WinKasStatus == 1){
+				console.log('WinKAS Authentication error.');
+				$scope.token = response.AuthenticationMessage;
+				$scope.authMessage = response.WinKasMessage;
+			} else {
+				console.log('Undefined authentication status code.');
+				$scope.authMessage = 'Error';
+			}
+			
+			$scope.authRaw = response;
+		};
+		
+		var onAuthError = function(response){
+			console.log(response);
+			$scope.token = "Unable to authenticate";
+			$scope.authMessage = 'Error';
+		};
+		
+				
+		$scope.authenticate = function(){
+		var request = {
+			"UserContractCode": auth.code, 
+			"UserName": auth.user, 
+			"UserPassword": auth.pass, 
+			"AuthLevel":"U"
+		};
+		var r = $http.post($scope.winkasServiceUrl + "authentication/authenticate", request);
+		r.success(onAuthComplete);
+		r.error(onAuthError);	
+		};
+		
+	};	
 	
-	var winkasServerUrl = 'http://api.decom.dk/api/';
+	var app = angular.module("app", []);
+	app.controller("MainController", ["$scope", "$http", MainController]);
+	app.directive('niceJson', function(){
+		return {
+			restrict: 'E',
+			templateUrl: 'nicejson.html'
+		};
+	});
+	
+})(angular);
 
-    var winkasAuthenticate = function(code, user, pass) {
-      console.log('authenticating with: code = ' + code + ', user name = ' + user + ', password = ' + pass);
-      
-      xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("POST", winkasServerUrl + "authentication/authenticate", false);
-      xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-      xmlhttp.send('UserName=' + user + '&UserPassword=' + pass + '&UserContractCode=' + code);
-      console.log(xmlhttp.responseText);
-      
-    };
-
-    var winkasApiMethod = function() {
-      console.log('executing...');
-    };
-
-    return {
-      authenticate: winkasAuthenticate,
-      executeAction: winkasApiMethod
-    };
-
-  };
-
-  var api = winKAS();
-
-  api.authenticate('admin', 'at@winkas.dk', 'admin');
-  api.executeAction();
-  api.executeAction();
-}());

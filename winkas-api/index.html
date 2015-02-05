@@ -5,13 +5,56 @@
   <script data-require="angular.js@*" data-semver="1.4.0-beta.3" src="https://code.angularjs.org/1.4.0-beta.3/angular.js"></script>
   <link rel="stylesheet" href="style.css" />
   <script src="script.js"></script>
+  
+   <style>
+      .renderjson a { text-decoration: none; }
+      .renderjson .disclosure { color: crimson;
+                                font-size: 150%; }
+      .renderjson .syntax { color: grey; }
+      .renderjson .string { color: darkred; }
+      .renderjson .number { color: darkcyan; }
+      .renderjson .boolean { color: blueviolet; }
+      .renderjson .key    { color: darkblue; }
+      .renderjson .keyword { color: blue; }
+      .renderjson .object.syntax { color: lightseagreen; }
+      .renderjson .array.syntax  { color: orange; }
+    </style>
+  
 </head>
 
-<body>
-  <div ng-app>
-    <h1>Hello Plunker!</h1> 
-    <p>{{ 1 + 2 }}</p>
+<body ng-app="app">
+  <div ng-controller="MainController">
+    <h1>{{ message }}</h1>
+	
+	<div>
+		<form name="authenticateUser" ng-submit="authenticate()">
+			<input type="text" required placeholder="User Code" ng-model="authInfo.code" />
+			<input type="text" required placeholder="User Name" ng-model="authInfo.user" />
+			<input type="text" required placeholder="Password" ng-model="authInfo.pass" />
+			<input type="submit" value="Authenticate" />
+		</form>
+	
+		<div>Contract code: {{ authInfo.code }}</div>
+		<div>User name: {{ authInfo.user }}</div>
+		<div>Password: {{ authInfo.pass }}</div>
+		
+		
+		
+		<div>Auth message: {{ authMessage }} </div>
+		<div>Current Token: {{ token}}</div>
+		
+		<div>RAW: {{ authRaw }} </div>
+		<div id="test">
+		<niceJson></niceJson>
+	</div>
+	
   </div>
 </body>
+
+<script type="text/javascript" src="renderjson.js"></script>
+<script>
+
+    <!-- document.getElementById("test").appendChild(        renderjson.set_icons('+', '-')(authInfo)     ); -->
+</script>
 
 </html>
