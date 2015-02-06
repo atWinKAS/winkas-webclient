@@ -9,6 +9,8 @@
 			pass: "admin"
 		};
 		
+		$scope.apiMethodUrl="accounts/all";
+				
 		$scope.authInfo = auth;
 		
 		var onAuthComplete = function(response){
@@ -16,25 +18,32 @@
 			$scope.authMessage = '';
 			
 			if (response.WinKasStatus == 0){
-				console.log('WinKAS Authentication success.');
 				$scope.token = response.WinKasData.CurrentToken;
 				$scope.authMessage = response.WinKasMessage;
 			} else if (response.WinKasStatus == 1){
-				console.log('WinKAS Authentication error.');
 				$scope.token = response.AuthenticationMessage;
 				$scope.authMessage = response.WinKasMessage;
 			} else {
-				console.log('Undefined authentication status code.');
 				$scope.authMessage = 'Error';
 			}
 			
-			$scope.authRaw = response;
+			$scope.rawAuthResponse = response;
+			$scope.apiRequest = JSON.stringify({ Token : $scope.token });
 		};
 		
 		var onAuthError = function(response){
-			console.log(response);
 			$scope.token = "Unable to authenticate";
 			$scope.authMessage = 'Error';
+		};
+		
+		var onApiComplete = function(response){
+			console.log(response);			
+			$scope.rawApiResponse = response;			
+		};
+		
+		var onApiError = function(response){
+			console.log(response);			
+			$scope.rawApiResponse = response;			
 		};
 		
 				
@@ -50,16 +59,43 @@
 		r.error(onAuthError);	
 		};
 		
+		$scope.executeRequest = function(){
+			
+			var request = JSON.parse($scope.apiRequest);
+			var r = $http.post($scope.winkasServiceUrl + $scope.apiMethodUrl, request);
+			r.success(onApiComplete);
+			r.error(onApiError);	
+			
+			$scope.rawApiRequest = request;
+			
+		};
+		
 	};	
 	
 	var app = angular.module("app", []);
 	app.controller("MainController", ["$scope", "$http", MainController]);
-	app.directive('niceJson', function(){
-		return {
-			//restrict: 'E',
-			templateUrl: 'nice-json.html'
-		};
-	});
 	
+	app.directive('rawJson', function(){
+		return{ 
+		link: 
+			function($scope, element, attrs){
+			
+				$scope.$watch(attrs.rawJson,function(value){
+					document.getElementById(attrs.id).innerHTML = '';
+					if (value !== undefined){					
+					
+						console.log(attrs.expanded);
+						var showLevel = "0";
+						if (attrs.expanded === "true"){
+							showLevel = "all";
+						}
+					
+						document.getElementById(attrs.id).appendChild(renderjson.set_icons('+', '-').set_show_to_level(showLevel)(value));
+					}
+				});
+			}
+		}
+	});
+		
 })(angular);
 

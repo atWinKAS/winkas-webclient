@@ -2,23 +2,11 @@
 <html>
 
 <head>
-  <script data-require="angular.js@*" data-semver="1.4.0-beta.3" src="https://code.angularjs.org/1.4.0-beta.3/angular.js"></script>
   <link rel="stylesheet" href="style.css" />
-  <script src="script.js"></script>
   
-   <style>
-      .renderjson a { text-decoration: none; }
-      .renderjson .disclosure { color: crimson;
-                                font-size: 150%; }
-      .renderjson .syntax { color: grey; }
-      .renderjson .string { color: darkred; }
-      .renderjson .number { color: darkcyan; }
-      .renderjson .boolean { color: blueviolet; }
-      .renderjson .key    { color: darkblue; }
-      .renderjson .keyword { color: blue; }
-      .renderjson .object.syntax { color: lightseagreen; }
-      .renderjson .array.syntax  { color: orange; }
-    </style>
+  <script type="text/javascript" src="angular.js"></script>
+  <script type="text/javascript" src="renderjson.js"></script>
+  <script src="script.js"></script>
   
 </head>
 
@@ -43,18 +31,29 @@
 		<div>Auth message: {{ authMessage }} </div>
 		<div>Current Token: {{ token}}</div>
 		
-		<div>RAW: {{ authRaw }} </div>
+						
+		<div raw-json="rawAuthResponse" id="authResponseId" expanded="false"></div>
+		<hr />
 		
-		<div nice-Json></div>
+		<div>Request url:</div>
+		<div><input type="text" placeholder="api method" ng-model="apiMethodUrl" /></div>
+		
+		<div>Request body:</div>
+		<div> 
+			<textarea placeholder="Request json code here" rows="4" cols="50" ng-model="apiRequest"></textarea>
+		</div>
+		<button type="button" ng-click="executeRequest()">Execute</button>
+		
+		<div>Request:</div>
+		<div raw-json="rawApiRequest" id="apiRequestId" expanded="false"></div>
+		
+		<div>Response:</div>		
+		<div raw-json="rawApiResponse" id="apiResponseId" expanded="true"></div>
+		
 	</div>
 	
   </div>
 </body>
 
-<script type="text/javascript" src="renderjson.js"></script>
-<script>
-
-    <!-- document.getElementById("test").appendChild(        renderjson.set_icons('+', '-')(authInfo)     ); -->
-</script>
 
 </html>
