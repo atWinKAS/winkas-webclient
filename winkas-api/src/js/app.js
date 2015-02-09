@@ -1,7 +1,7 @@
 (function (angular) {
     function MainController($scope, $http) {
         $scope.message = "WinKAS API Web Client";
-        $scope.winkasServiceUrl = "http://localhost:51431/api/"; //"http://api.decom.dk/api/";
+        $scope.winkasServiceUrl = "http://api.decom.dk/api/";
 
         var auth = {
             code: "admin",
