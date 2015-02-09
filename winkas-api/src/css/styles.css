@@ -65,6 +65,7 @@ h3,h4,h5 {
 }
 .modal-dialog {
  width: 450px;
+ z-index: 2000;
 }
 .modal-footer {
  border-width:0;
@@ -92,7 +93,7 @@ h3,h4,h5 {
 #main {
  padding-top:120px;
 }
-
+/*
 .renderjson a { text-decoration: none; }
 .renderjson .disclosure { color: crimson; font-size: 150%; }
 .renderjson .syntax { color: grey; }
@@ -103,3 +104,4 @@ h3,h4,h5 {
 .renderjson .keyword { color: blue; }
 .renderjson .object.syntax { color: lightseagreen; }
 .renderjson .array.syntax  { color: orange; }
+*/
