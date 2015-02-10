@@ -2,14 +2,15 @@
     function MainController($scope, $http) {
         $scope.message = "WinKAS API Web Client";
         $scope.winkasServiceUrl = "http://api.decom.dk/api/";
+        $scope.appVersion = "0.21";
 
         $scope.userInfoDetailsVisible = false;
         $scope.tokenInfoDetailsVisible = false;
 
         var auth = {
-            code: "admin",
-            user: "at@winkas.dk",
-            pass: "admin"
+            code: "",
+            user: "",
+            pass: ""
         };
 
         $scope.apiMethodUrl = "accounts/all";

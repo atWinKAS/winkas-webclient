@@ -1,3 +1,1 @@
-1. Add current app version
-2. Add link to github repo
 3. Publish on Azure
