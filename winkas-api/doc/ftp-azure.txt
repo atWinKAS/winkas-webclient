@@ -1,0 +1,4 @@
+ftp://waws-prod-db3-019.ftp.azurewebsites.windows.net/
+
+u: winkasjs\winkas-js-user
+p: POI098qwe!
