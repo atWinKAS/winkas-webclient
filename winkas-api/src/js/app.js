@@ -1,8 +1,8 @@
 (function (angular) {
-    function MainController($scope, $http) {
+    function MainController($scope, $http, $log, $anchorScroll, $location) {
         $scope.message = "WinKAS API Web Client";
         $scope.winkasServiceUrl = "http://api.decom.dk/api/";
-        $scope.appVersion = "0.21";
+        $scope.appVersion = "0.22";
 
         $scope.userInfoDetailsVisible = false;
         $scope.tokenInfoDetailsVisible = false;
@@ -13,7 +13,7 @@
             pass: ""
         };
 
-        $scope.apiMethodUrl = "accounts/all";
+        $scope.apiMethodUrl = "";
 
         $scope.authInfo = auth;
 
@@ -33,7 +33,8 @@
             }
 
             $scope.rawAuthResponse = response;
-            $scope.apiRequest = JSON.stringify({Token: $scope.token});
+            $scope.apiRequest = JSON.stringify({ Token: $scope.token });
+           
         };
 
         var onAuthError = function (response) {
@@ -44,6 +45,9 @@
         var onApiComplete = function (response) {
             console.log(response);
             $scope.rawApiResponse = response;
+
+            //$location.hash("winkasRequestRow");
+            //$anchorScroll();
         };
 
         var onApiError = function (response) {
@@ -53,8 +57,7 @@
 
 
         $scope.authenticate = function () {
-            console.log("going to auth");
-
+            $log.info("Going to authenticate user...");
             var request = {
                 "UserContractCode": auth.code,
                 "UserName": auth.user,
@@ -90,17 +93,15 @@
     };
 
     var app = angular.module("app", []);
-    app.controller("MainController", ["$scope", "$http", MainController]);
+    app.controller("MainController", ["$scope", "$http", "$log", "$anchorScroll", "$location", MainController]);
 
     app.directive('rawJson', function () {
         return {
             link: function ($scope, element, attrs) {
-
                 $scope.$watch(attrs.rawJson, function (value) {
                     document.getElementById(attrs.id).innerHTML = '';
                     if (value !== undefined) {
 
-                        console.log(attrs.expanded);
                         var showLevel = "0";
                         if (attrs.expanded === "true") {
                             showLevel = "all";
@@ -113,12 +114,11 @@
         }
     });
 
-    app.directive('myModal', function () {
+    app.directive('closeModal', function () {
         return {
             restrict: 'A',
             link: function (scope, element, attr) {
                 scope.dismiss = function () {
-                    console.log('closing');
                     element.modal('hide');
                 };
             }
