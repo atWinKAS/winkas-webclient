@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
@@ -12,114 +12,190 @@
     <link href="css/styles.css" rel="stylesheet">
 </head>
 <body ng-app="app">
-<div ng-controller="MainController">
-<nav class="navbar navbar-fixed-top header">
-    <div class="col-md-12">
-        <div class="navbar-header">
+    <div ng-controller="MainController">
+        <nav class="navbar navbar-fixed-top header">
+            <div class="col-md-12">
+                <div class="navbar-header">
 
-            <a href="#" class="navbar-brand">WinKAS API</a>
+                    <a href="#" class="navbar-brand">WinKAS API</a>
 
-        </div>
-        <div class="collapse navbar-collapse" id="navbar-collapse1">
-            
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#" target="_ext">{{ message }}</a></li>
-                
-            </ul>
-        </div>
-    </div>
-</nav>
-<div class="navbar navbar-default" id="subnav">
-    <div class="col-md-12">
-        <div class="navbar-header">
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-collapse1">
 
-        </div>
-        <div class="collapse navbar-collapse" id="navbar-collapse2">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="#">Requests</a></li>
-                <li><a href="#loginModal" role="button" data-toggle="modal">Login</a></li>
-                <li><a href="#aboutModal" role="button" data-toggle="modal">About</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#" target="_ext">{{ message }}</a></li>
 
-<!--main-->
-<div class="container" id="main">
-  <div class="row">
-
-
-  
-
-        <div class="clearfix"></div>
-
-    </div>
-
-</div>
-<!--/main-->
-
-<!--login modal-->
-<div id="loginModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h2 class="text-center"><img
-                        src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=100"
-                        class="img-circle"><br>Login</h2>
+                    </ul>
+                </div>
             </div>
-            <div class="modal-body">
-                <form class="form col-md-12 center-block">
-                    <div class="form-group">
-                        <input type="text" class="form-control input-lg" placeholder="Email">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control input-lg" placeholder="Password">
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary btn-lg btn-block">Sign In</button>
-                        <span class="pull-right"><a href="#">Register</a></span><span><a href="#">Need help?</a></span>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <div class="col-md-12">
-                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        </nav>
+        <div class="navbar navbar-default" id="subnav">
+            <div class="col-md-12">
+                <div class="navbar-header">
+
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-collapse2">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a href="#">Requests</a></li>
+                        <li><a href="#loginModal" role="button" data-toggle="modal">Login</a></li>
+                        <li><a href="#aboutModal" role="button" data-toggle="modal">About</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </div>
-</div>
 
+        <!--main-->
+        <div class="container" id="main">
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><a class="btn btn-info pull-right" href="#" ng-click="showHideUserInfo()">Details</a><h4>Current user</h4></div>
+                        <div class="panel-body" ng-show="userInfoDetailsVisible">
+                            <ul class="list-group">
+                                <li class="list-group-item">Contract code: {{ authInfo.code }}</li>
+                                <li class="list-group-item">User name: {{ authInfo.user }}</li>
+                                <li class="list-group-item">Password: {{ authInfo.pass }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 
-<!--about modal-->
-<div id="aboutModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h2 class="text-center">About</h2>
+                <div class="col-md-8 col-sm-6">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><a class="btn btn-info pull-right" href="#" ng-click="showHideTokenInfo()">Details</a><h4>Token</h4></div>
+                        <div class="panel-body" ng-show="tokenInfoDetailsVisible">
+                            <div class="form-group" style="padding:14px;">
+                                <textarea rows="5" class="form-control" placeholder="current token value">{{ token}}</textarea>
+                            </div>
+                            <div> <p>{{ authMessage }}</p> </div>
+                            <div raw-json="rawAuthResponse" id="authResponseId" expanded="false"></div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
-            <div class="modal-body">
-                <div class="col-md-12 text-center">
-                    <a href="http://www.bootply.com/DwnjTNuvVt">This Bootstrap Template</a><br>was made with <i
-                        class="glyphicon glyphicon-heart"></i> by <a href="http://bootply.com/templates">Bootply</a>
-                    <br><br>
-                    <a href="https://github.com/iatek/bootstrap-google-plus">GitHub Fork</a>
+
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h4>Request</h4></div>
+                        <div class="panel-body">
+                            <div class="form-group" style="padding:14px;">
+                                <input type="text" class="form-control input-lg" placeholder="api method" ng-model="apiMethodUrl">
+                                <textarea rows="10" class="form-control" placeholder="request json code here" ng-model="apiRequest"></textarea>
+                            </div>
+
+                            
+                            <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="executeRequest()">Execute</button>
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h4>Request object</h4></div>
+                        <div class="panel-body">
+                            <div raw-json="rawApiRequest" id="apiRequestId" expanded="true"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading"><h4>Response</h4></div>
+                        <div class="panel-body">
+                            <div raw-json="rawApiResponse" id="apiResponseId" expanded="true"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>
+
+            <br>
+
+            <div class="clearfix"></div>
+
+            <hr>
+            <div class="col-md-12 text-center"><p><a href="http://winkas.dk/" target="_ext">WinKAS A/S</a></p></div>
+            <hr>
+
+        </div>
+        <!--/main-->
+        <!--login modal-->
+        <div id="loginModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" my-modal>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h2 class="text-center">
+                            <img src="Content/photo.png"
+                                 class="img-circle"><br>Login
+                        </h2>
+                    </div>
+                    <div class="modal-body">
+                        <form id="authenticateUser" class="form col-md-12 center-block" name="authenticateUser" ng-submit="authenticate()">
+                            <div class="form-group">
+                                <input type="text" class="form-control input-lg" required placeholder="Code" ng-model="authInfo.code">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control input-lg" required placeholder="User name" ng-model="authInfo.user">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control input-lg" required placeholder="Password" ng-model="authInfo.pass">
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Authenticate" class="btn btn-primary btn-lg btn-block" />
+                                <span class="pull-right"><a href="http://api.decom.dk/Account/Login?ReturnUrl=%2f">Register</a></span><span><a href="http://winkas.dk/indhold.asp?id=146">Need help?</a></span>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-md-12">
+                            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+
+
+        <!--about modal-->
+        <div id="aboutModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h2 class="text-center">About</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12 text-center">
+                            <br>
+                            <a href="http://winkas.dk/indhold.asp?id=154">WinKAS Developer Team</a>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- script references -->
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/angular.js"></script>
-<script src="js/scripts.js"></script>
-<script src="js/app.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/renderjson.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

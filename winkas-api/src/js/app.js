@@ -3,6 +3,9 @@
         $scope.message = "WinKAS API Web Client";
         $scope.winkasServiceUrl = "http://api.decom.dk/api/";
 
+        $scope.userInfoDetailsVisible = false;
+        $scope.tokenInfoDetailsVisible = false;
+
         var auth = {
             code: "admin",
             user: "at@winkas.dk",
@@ -23,6 +26,7 @@
             } else if (response.WinKasStatus == 1) {
                 $scope.token = response.AuthenticationMessage;
                 $scope.authMessage = response.WinKasMessage;
+                $scope.tokenInfoDetailsVisible = true;
             } else {
                 $scope.authMessage = 'Error';
             }
@@ -48,6 +52,8 @@
 
 
         $scope.authenticate = function () {
+            console.log("going to auth");
+
             var request = {
                 "UserContractCode": auth.code,
                 "UserName": auth.user,
@@ -57,6 +63,8 @@
             var r = $http.post($scope.winkasServiceUrl + "authentication/authenticate", request);
             r.success(onAuthComplete);
             r.error(onAuthError);
+
+            $scope.dismiss();
         };
 
         $scope.executeRequest = function () {
@@ -68,6 +76,14 @@
 
             $scope.rawApiRequest = request;
 
+        };
+
+        $scope.showHideUserInfo = function() {
+            $scope.userInfoDetailsVisible = !$scope.userInfoDetailsVisible;
+        };
+
+        $scope.showHideTokenInfo = function () {
+            $scope.tokenInfoDetailsVisible = !$scope.tokenInfoDetailsVisible;
         };
 
     };
@@ -92,6 +108,18 @@
                         document.getElementById(attrs.id).appendChild(renderjson.set_icons('+', '-').set_show_to_level(showLevel)(value));
                     }
                 });
+            }
+        }
+    });
+
+    app.directive('myModal', function () {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attr) {
+                scope.dismiss = function () {
+                    console.log('closing');
+                    element.modal('hide');
+                };
             }
         }
     });
