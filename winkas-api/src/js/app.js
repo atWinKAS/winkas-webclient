@@ -1,11 +1,13 @@
 (function (angular) {
-    function MainController($scope, $http, $log, $anchorScroll, $location) {
+    function MainController($scope, $log, $anchorScroll, $location, winkasApi, $routeParams) {
         $scope.message = "WinKAS API Web Client";
-        $scope.winkasServiceUrl = "http://api.decom.dk/api/";
+        $scope.winkasServiceUrl = "http://localhost:51431/api/"; //"http://api.decom.dk/api/";
         $scope.appVersion = "0.22";
 
         $scope.userInfoDetailsVisible = false;
         $scope.tokenInfoDetailsVisible = false;
+
+        $scope.methodid = 0;
 
         var auth = {
             code: "",
@@ -18,12 +20,12 @@
         $scope.authInfo = auth;
 
         var onAuthComplete = function (response) {
-            console.log(response);
             $scope.authMessage = '';
 
             if (response.WinKasStatus == 0) {
                 $scope.token = response.WinKasData.CurrentToken;
                 $scope.authMessage = response.WinKasMessage;
+                $location.path("/");
             } else if (response.WinKasStatus == 1) {
                 $scope.token = response.AuthenticationMessage;
                 $scope.authMessage = response.WinKasMessage;
@@ -33,8 +35,10 @@
             }
 
             $scope.rawAuthResponse = response;
-            $scope.apiRequest = JSON.stringify({ Token: $scope.token });
-           
+            if ($scope.apiRequest == null) {
+                $scope.apiRequest = JSON.stringify({ Token: $scope.token });
+            }
+
         };
 
         var onAuthError = function (response) {
@@ -42,8 +46,12 @@
             $scope.authMessage = 'Error';
         };
 
-        var onApiComplete = function (response) {
+        var onMethodHelpComplete = function(response) {
             console.log(response);
+        };
+
+        var onApiComplete = function (response) {
+            //console.log(response);
             $scope.rawApiResponse = response;
 
             //$location.hash("winkasRequestRow");
@@ -64,7 +72,7 @@
                 "UserPassword": auth.pass,
                 "AuthLevel": "U"
             };
-            var r = $http.post($scope.winkasServiceUrl + "authentication/authenticate", request);
+            var r = winkasApi.winkasAuhenticate($scope.winkasServiceUrl + "authentication/authenticate", request);
             r.success(onAuthComplete);
             r.error(onAuthError);
 
@@ -74,7 +82,7 @@
         $scope.executeRequest = function () {
 
             var request = JSON.parse($scope.apiRequest);
-            var r = $http.post($scope.winkasServiceUrl + $scope.apiMethodUrl, request);
+            var r = winkasApi.winkasExecuteRequest($scope.winkasServiceUrl + $scope.apiMethodUrl, request);
             r.success(onApiComplete);
             r.error(onApiError);
 
@@ -90,10 +98,24 @@
             $scope.tokenInfoDetailsVisible = !$scope.tokenInfoDetailsVisible;
         };
 
+
+        if ($location.search() != undefined && $location.search().methodid != undefined) {
+            $scope.methodid = $location.search().methodid;
+
+        }
+
+        if ($scope.methodid > 0) {
+            console.log('getting help for specific method: ' + $scope.methodid);
+            var r = winkasApi.winkasGetMethodHelp($scope.winkasServiceUrl + "/examples/byid/" + $scope.methodid);
+            r.success(onMethodHelpComplete);
+            r.error(onApiError);
+        }
+
     };
 
-    var app = angular.module("app", []);
-    app.controller("MainController", ["$scope", "$http", "$log", "$anchorScroll", "$location", MainController]);
+    var app = angular.module("winkasClient", ['ngRoute']);
+
+    app.controller("MainController", ["$scope", "$log", "$anchorScroll", "$location", "winkasApi", "$routeParams", MainController]);
 
     app.directive('rawJson', function () {
         return {

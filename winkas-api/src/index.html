@@ -11,7 +11,7 @@
     <![endif]-->
     <link href="css/styles.css" rel="stylesheet">
 </head>
-<body ng-app="app">
+<body ng-app="winkasClient">
     <div ng-controller="MainController">
         <nav class="navbar navbar-fixed-top header">
             <div class="col-md-12">
@@ -135,15 +135,14 @@
 
             <hr>
             <div class="col-md-12 text-center"><p><a href="http://winkas.dk/" target="_ext">WinKAS A/S</a></p></div>
-            
+
         </div>
         <!--/main-->
-
         <!--login modal-->
         <div id="loginModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" close-modal>
-            <div ng-include="'login.html'"></div>            
+            <div ng-include="'login.html'"></div>
         </div>
-        
+
         <div ng-include="'about.html'"></div>
 
 
@@ -152,8 +151,10 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/angular.js"></script>
+    <script src="js/angular-route.js"></script>
     <script src="js/renderjson.js"></script>
     <script src="js/scripts.js"></script>
     <script src="js/app.js"></script>
+    <script src="js/winkasapi.js"></script>
 </body>
 </html>

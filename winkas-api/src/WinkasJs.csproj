@@ -76,6 +76,7 @@
     <Content Include="css\styles.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="index.html" />
+    <Content Include="js\angular-route.js" />
     <Content Include="js\angular.js" />
     <Content Include="js\app.js" />
     <Content Include="js\bootstrap.min.js" />
@@ -83,6 +84,7 @@
     <Content Include="js\renderjson.js" />
     <Content Include="js\scripts.js" />
     <Content Include="about.html" />
+    <Content Include="js\winkasapi.js" />
     <Content Include="login.html" />
     <Content Include="Web.config" />
   </ItemGroup>
