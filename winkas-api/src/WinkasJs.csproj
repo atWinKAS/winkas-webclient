@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\photo.png" />
+    <Content Include="css\toaster.css" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -76,6 +77,7 @@
     <Content Include="css\styles.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="index.html" />
+    <Content Include="js\angular-animate.js" />
     <Content Include="js\angular-route.js" />
     <Content Include="js\angular.js" />
     <Content Include="js\app.js" />
@@ -84,6 +86,7 @@
     <Content Include="js\renderjson.js" />
     <Content Include="js\scripts.js" />
     <Content Include="about.html" />
+    <Content Include="js\toaster.js" />
     <Content Include="js\winkasapi.js" />
     <Content Include="login.html" />
     <Content Include="Web.config" />
